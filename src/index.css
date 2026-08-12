@@ -1,0 +1,269 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Islora brand palette */
+    --linen: #f8f5ef;
+    --sage: #7a8f72;
+    --olive: #4f624c;
+    --olive-deep: #3d4d3b;
+    --taupe: #c9c0b2;
+    --charcoal: #3f3b37;
+    --sand: #e6d6b8;
+    --terracotta: #c98c72;
+    --dusty: #AEBFCA;
+    --butter: #f3e7b8;
+
+    /* shadcn tokens mapped to brand */
+    --background: 40 33% 95%;
+    --foreground: 30 7% 23%;
+    --card: 0 0% 100%;
+    --card-foreground: 30 7% 23%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 30 7% 23%;
+    --primary: 109 13% 35%;
+    --primary-foreground: 40 33% 95%;
+    --secondary: 97 13% 57%;
+    --secondary-foreground: 40 33% 95%;
+    --muted: 37 20% 88%;
+    --muted-foreground: 30 5% 45%;
+    --accent: 39 48% 81%;
+    --accent-foreground: 30 7% 23%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 37 17% 84%;
+    --input: 37 17% 84%;
+    --ring: 109 13% 35%;
+    --radius: 0.625rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Nunito', 'IBM Plex Sans Arabic', sans-serif;
+    overflow-x: hidden;
+  }
+  html[dir='rtl'] body {
+    font-family: 'IBM Plex Sans Arabic', 'Nunito', sans-serif;
+  }
+  ::selection {
+    background: var(--olive);
+    color: var(--linen);
+  }
+}
+
+/* ---------- Typography helpers ---------- */
+.font-display {
+  font-family: 'Fraunces', 'Amiri', serif;
+}
+html[dir='rtl'] .font-display {
+  font-family: 'Amiri', 'Fraunces', serif;
+}
+.font-body {
+  font-family: 'Nunito', 'IBM Plex Sans Arabic', sans-serif;
+}
+html[dir='rtl'] .font-body {
+  font-family: 'IBM Plex Sans Arabic', 'Nunito', sans-serif;
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Image mask reveal: clipped panel opens, inner photo settles from 1.15 → 1 */
+.mask-reveal {
+  clip-path: inset(12% 8% 12% 8% round 24px);
+  transition: clip-path 1.15s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.mask-reveal.is-visible {
+  clip-path: inset(0 0 0 0 round 24px);
+}
+.mask-reveal img {
+  transform: scale(1.15);
+  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.mask-reveal.is-visible img {
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .mask-reveal,
+  .mask-reveal img {
+    transition: none;
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+}
+
+/* ---------- Arch vessel (the signature Islora arch) ---------- */
+.arch {
+  border-radius: 999px 999px 24px 24px;
+}
+.arch-top {
+  border-radius: 999px 999px 0 0;
+}
+
+/* ---------- Ambient motion ---------- */
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+@keyframes float-soft-rev {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(12px);
+  }
+}
+@keyframes drift {
+  0% {
+    transform: translateX(-6%);
+  }
+  50% {
+    transform: translateX(6%);
+  }
+  100% {
+    transform: translateX(-6%);
+  }
+}
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-float {
+  animation: float-soft 6s ease-in-out infinite;
+}
+.animate-float-rev {
+  animation: float-soft-rev 7s ease-in-out infinite;
+}
+.animate-drift {
+  animation: drift 18s ease-in-out infinite;
+}
+.animate-sway {
+  animation: sway 5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+.animate-spin-slow {
+  animation: spin-slow 40s linear infinite;
+}
+
+/* ---------- Header ---------- */
+#site-header {
+  transition:
+    transform 0.6s cubic-bezier(0.33, 1, 0.68, 1),
+    background-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+#site-header.header-hidden {
+  transform: translateY(-100%);
+}
+
+/* ---------- Marquee ---------- */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+html[dir='rtl'] .marquee-track {
+  animation-direction: reverse;
+}
+.marquee-track {
+  animation: marquee 36s linear infinite;
+}
+
+/* ---------- Buttons ---------- */
+.btn-pill .btn-arrow {
+  transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+}
+.btn-pill:hover .btn-arrow {
+  transform: translateX(4px);
+}
+html[dir='rtl'] .btn-pill .btn-arrow svg {
+  transform: scaleX(-1);
+}
+html[dir='rtl'] .btn-pill:hover .btn-arrow {
+  transform: translateX(-4px);
+}
+
+/* ---------- WhatsApp float pulse ---------- */
+@keyframes wa-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 18px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+.wa-float {
+  animation: wa-pulse 2.6s ease-out infinite;
+}
+
+/* ---------- Gallery lightbox ---------- */
+.lightbox-backdrop {
+  backdrop-filter: blur(10px);
+}
+
+/* leaf divider draw-on */
+.leaf-path {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  transition: stroke-dashoffset 2s ease 0.2s;
+}
+.is-visible .leaf-path {
+  stroke-dashoffset: 0;
+}
